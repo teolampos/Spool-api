@@ -11,9 +11,7 @@ const server = express();
 
 //We connect to the MongoDB database
 let db;
-MongoClient.connect(
-  "mongodb+srv://teolampos:T111222L@spoolcluster.4fy9qm8.mongodb.net/?retryWrites=true&w=majority"
-)
+MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     db = client.db();
     server.listen(5000, () =>
