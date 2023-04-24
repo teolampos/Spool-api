@@ -10,15 +10,15 @@ const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary");
 require("dotenv").config();
 
+const PORT = process.env.PORT || 5003;
 const server = express();
-
 //We connect to the MongoDB database
 let db;
 MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     db = client.db();
-    server.listen(5000, () =>
-      console.log("Server started listening on port 5000...")
+    server.listen(PORT, () =>
+      console.log("Server started listening on PORT", PORT)
     );
   })
   .catch((err) => {
@@ -44,7 +44,7 @@ server.use(rateLimiter({ windowMs: 400000, max: 100 })); //ALLOW 100 REQUESTS PE
 //Implementing CORS
 server.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://spool.onrender.com"],
     credentials: true,
   })
 );
@@ -79,7 +79,7 @@ server.post("/register", async (req, res) => {
     res.cookie("ACCESS", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     res.status(201).json({ msg: "User added", user });
@@ -109,7 +109,7 @@ server.post("/login", async (req, res) => {
       res.cookie("ACCESS", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
       });
       res.status(200).json({ username });
     } else {
@@ -249,15 +249,5 @@ server.put("/upload", async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({ msg: "Internal Server Error" });
-  }
-});
-
-server.get("/clear", async (req, res) => {
-  try {
-    await db.collection("users").deleteMany();
-    res.clearCookie("ACCESS");
-    res.send("yes");
-  } catch (err) {
-    res.send(err);
   }
 });
