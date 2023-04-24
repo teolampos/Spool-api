@@ -38,7 +38,6 @@ server.use(cookieParser()); // TO WORK WITH COOKIES
 //SECURITY MIDDLEWARES
 server.use(helmet());
 server.use(xss());
-// server.use(rateLimiter({ windowMs: 400000, max: 100 })); //ALLOW 100 REQUESTS PER 400000MS = 8 MINUTES
 
 //Implementing CORS
 server.use(
@@ -221,10 +220,12 @@ server.post("/remove", async (req, res) => {
 server.delete("/delete", async (req, res) => {
   try {
     const { username, public_id } = req.body;
-    await db.collection("users").deleteOne({ username });
-    cloudinary.v2.uploader.destroy(public_id, (err, result) => {
-      if (err) return res.status(400).json({ msg: err });
-    });
+    if (public_id) {
+      await db.collection("users").deleteOne({ username });
+      cloudinary.v2.uploader.destroy(public_id, (err, result) => {
+        if (err) return res.status(400).json({ msg: err });
+      });
+    }
     res.clearCookie("ACCESS", {
       httpOnly: true,
       secure: true,
