@@ -38,8 +38,7 @@ server.use(cookieParser()); // TO WORK WITH COOKIES
 //SECURITY MIDDLEWARES
 server.use(helmet());
 server.use(xss());
-server.set("trust proxy", 1);
-server.use(rateLimiter({ windowMs: 400000, max: 100 })); //ALLOW 100 REQUESTS PER 400000MS = 8 MINUTES
+// server.use(rateLimiter({ windowMs: 400000, max: 100 })); //ALLOW 100 REQUESTS PER 400000MS = 8 MINUTES
 
 //Implementing CORS
 server.use(
