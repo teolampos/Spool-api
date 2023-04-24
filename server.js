@@ -38,6 +38,8 @@ server.use(cookieParser()); // TO WORK WITH COOKIES
 //SECURITY MIDDLEWARES
 server.use(helmet());
 server.use(xss());
+server.set("trust-proxy", 1);
+server.use(rateLimiter({ windowMs: 5 * 60 * 1000, max: 100 }));
 
 //Implementing CORS
 server.use(
@@ -231,7 +233,6 @@ server.delete("/delete", async (req, res) => {
         if (err) return res.status(400).json({ msg: err });
       });
     }
-
     res.status(200).json({});
   } catch (err) {
     res.status(500).json({ msg: err });
