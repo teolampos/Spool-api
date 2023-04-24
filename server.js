@@ -220,17 +220,18 @@ server.post("/remove", async (req, res) => {
 server.delete("/delete", async (req, res) => {
   try {
     const { username, public_id } = req.body;
+    res.clearCookie("ACCESS", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     if (public_id) {
       await db.collection("users").deleteOne({ username });
       cloudinary.v2.uploader.destroy(public_id, (err, result) => {
         if (err) return res.status(400).json({ msg: err });
       });
     }
-    res.clearCookie("ACCESS", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+
     res.status(200).json({});
   } catch (err) {
     res.status(500).json({ msg: err });
