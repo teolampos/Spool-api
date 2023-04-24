@@ -124,7 +124,7 @@ server.post("/login", async (req, res) => {
 server.delete("/logout", async (req, res) => {
   try {
     res.clearCookie("ACCESS", { sameSite: "none", secure: true });
-    res.status(200).json({ success: true });
+    return res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false });
   }
@@ -224,7 +224,7 @@ server.delete("/delete", async (req, res) => {
       if (err) return res.status(400).json({ msg: err });
     });
     res.clearCookie("ACCESS", { sameSite: "none", secure: true });
-    res.status(200).json({ msg: "User deleted succesfully" });
+    return res.json({ msg: "User deleted succesfully" });
   } catch (err) {
     res.status(500).json({ msg: err });
   }
