@@ -133,7 +133,7 @@ server.delete("/logout", async (req, res) => {
 //AUTHORIZATION ROUTE
 server.get("/auth", (req, res) => {
   const { ACCESS } = req.cookies;
-  if (ACCESS) {
+  if (ACCESS !== null) {
     jwt.verify(ACCESS, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       if (err) return res.status(403).json({ msg: "Unauthorized" });
       res.status(200).json(user);
