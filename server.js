@@ -123,7 +123,7 @@ server.post("/login", async (req, res) => {
 //LOGOUT ROUTE
 server.delete("/logout", async (req, res) => {
   try {
-    res.setHeader("set-cookie", "ACCESS=hello");
+    res.setHeader("set-cookie", "ACCESS=hello; SameSite=none");
     res.status(200).json({ msg: "Logout successful" });
   } catch (err) {
     res.status(500).json({ success: false });
