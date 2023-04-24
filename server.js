@@ -123,7 +123,11 @@ server.post("/login", async (req, res) => {
 //LOGOUT ROUTE
 server.delete("/logout", async (req, res) => {
   try {
-    res.clearCookie("ACCESS");
+    res.clearCookie("ACCESS", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(200).json({});
   } catch (err) {
     res.status(500).json({ success: false });
@@ -222,7 +226,11 @@ server.delete("/delete", async (req, res) => {
     cloudinary.v2.uploader.destroy(public_id, (err, result) => {
       if (err) return res.status(400).json({ msg: err });
     });
-    res.clearCookie("ACCESS");
+    res.clearCookie("ACCESS", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(200).json({});
   } catch (err) {
     res.status(500).json({ msg: err });
