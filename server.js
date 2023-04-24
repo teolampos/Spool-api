@@ -123,7 +123,7 @@ server.post("/login", async (req, res) => {
 //LOGOUT ROUTE
 server.delete("/logout", async (req, res) => {
   try {
-    res.clearCookie("ACCESS");
+    res.setHeader("set-cookie", "ACCESS=''");
     res.status(200).json({ msg: "Logout successful" });
   } catch (err) {
     res.status(500).json({ success: false });
@@ -133,7 +133,8 @@ server.delete("/logout", async (req, res) => {
 //AUTHORIZATION ROUTE
 server.get("/auth", (req, res) => {
   const { ACCESS } = req.cookies;
-  if (ACCESS !== null) {
+
+  if (ACCESS) {
     jwt.verify(ACCESS, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       if (err) return res.status(403).json({ msg: "Unauthorized" });
       res.status(200).json(user);
