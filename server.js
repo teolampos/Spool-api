@@ -38,7 +38,7 @@ server.use(cookieParser()); // TO WORK WITH COOKIES
 //SECURITY MIDDLEWARES
 server.use(helmet());
 server.use(xss());
-server.set("trust-proxy", 1);
+server.set("trust proxy", 1);
 server.use(rateLimiter({ windowMs: 5 * 60 * 1000, max: 100 }));
 
 //Implementing CORS
