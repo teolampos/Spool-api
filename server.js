@@ -80,6 +80,7 @@ server.post("/register", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      maxAge: 15000,
     });
 
     res.status(201).json({ msg: "User added", user });
@@ -110,6 +111,7 @@ server.post("/login", async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        maxAge: 24 * 60 * 1000, // 1 DAY IN MILISECONDS
       });
       res.status(200).json({ username });
     } else {
