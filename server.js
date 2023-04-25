@@ -229,8 +229,8 @@ server.delete("/delete", async (req, res) => {
       secure: true,
       sameSite: "none",
     });
+    await db.collection("users").deleteOne({ username });
     if (public_id) {
-      await db.collection("users").deleteOne({ username });
       cloudinary.v2.uploader.destroy(public_id, (err, result) => {
         if (err) return res.status(400).json({ msg: err });
       });
