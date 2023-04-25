@@ -58,7 +58,7 @@ server.post("/register", async (req, res) => {
     //CHECKS IF A USER WITH THE EXACT USERNAME IS ALREADY REGISTERED
     const sameUser = await db.collection("users").findOne({ username });
     if (sameUser != null) {
-      return res.status(400).json({ msg: "Username already exists" });
+      return res.status(400).json({ msg: "User already exists" });
     }
 
     //HASHING USER PASSWORD
@@ -80,7 +80,7 @@ server.post("/register", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 15000,
+      maxAge: 24 * 60 * 1000, // COOKIE EXPIRES IN ONE DAY FROM THE MOMENT OF CREATION
     });
 
     res.status(201).json({ msg: "User added", user });
@@ -111,7 +111,7 @@ server.post("/login", async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        maxAge: 24 * 60 * 1000, // 1 DAY IN MILISECONDS
+        maxAge: 24 * 60 * 1000, // COOKIE EXPIRES IN ONE DAY FROM THE MOMENT OF CREATION
       });
       res.status(200).json({ username });
     } else {
