@@ -80,6 +80,7 @@ server.post("/register", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      domain: "www.spool.onrender.com",
       maxAge: 24 * 60 * 1000, // COOKIE EXPIRES IN ONE DAY FROM THE MOMENT OF CREATION
     });
 
