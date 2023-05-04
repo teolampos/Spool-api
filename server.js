@@ -78,7 +78,7 @@ server.post("/register", async (req, res) => {
     const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
     res.cookie("ACCESS", token, {
       httpOnly: true,
-      secure: "",
+      secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 1000, // COOKIE EXPIRES IN ONE DAY FROM THE MOMENT OF CREATION
     });
@@ -109,7 +109,7 @@ server.post("/login", async (req, res) => {
       );
       res.cookie("ACCESS", token, {
         httpOnly: true,
-        secure: "",
+        secure: true,
         sameSite: "none",
         maxAge: 24 * 60 * 1000, // COOKIE EXPIRES IN ONE DAY FROM THE MOMENT OF CREATION
       });
